@@ -5,6 +5,7 @@ import postcss from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
 import svgr from '@svgr/rollup'
+import copy from 'rollup-plugin-copy'
 
 import pkg from './package.json'
 
@@ -25,6 +26,11 @@ export default {
   external: [ 'react', 'react-dom' ],
   plugins: [
     external(),
+    copy({
+      targets: [
+        { src: 'types/*.d.ts', dest: 'dist' }
+      ]
+    }),
     postcss({
       modules: true,
       plugins: [require('postcss-nested')]
