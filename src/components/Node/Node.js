@@ -8,7 +8,7 @@ import {
 } from "../../context";
 import { getPortRect, calculateCurve } from "../../connectionCalculator";
 import { Portal } from "react-portal";
-import NestedContextMenu from "../ContextMenu/ContextMenu";
+import NestedContextMenu from "../ContextMenu/NestedContextMenu";
 import IoPorts from "../IoPorts/IoPorts";
 import Draggable from "../Draggable/Draggable";
 
