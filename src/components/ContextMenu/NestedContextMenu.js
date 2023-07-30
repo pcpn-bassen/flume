@@ -241,7 +241,7 @@ const ContextOption = ({
 };
 
 const SubContextMenu = ({ x, y, options, onSelect }) => (
-  <div className={styles.subMenuWrapper} style={{ position: 'absolute', top: y, left: x }}>
+  <div className={styles.menuWrapper} style={{ position: 'absolute', top: y, left: x }}>
     {options.map((option, index) => (
       <ContextOption
         menuId={option.group}
