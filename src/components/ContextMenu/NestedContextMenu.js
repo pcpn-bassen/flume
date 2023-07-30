@@ -194,7 +194,6 @@ const NestedContextMenu = ({
             )}
           </ContextOption>
         ))}
-        Test
         {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}

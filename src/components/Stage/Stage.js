@@ -206,14 +206,13 @@ const Stage = ({
         ["group", "sortIndex", "label"]
       )
       if (!disableComments) {
-        options.push({ value: "comment", label: "Comment", description: "A comment for documenting nodes", internalType: "comment" })
+        options.push({ value: "comment", group: null, label: "Comment", description: "A comment for documenting nodes", internalType: "comment" })
       }
       console.log(options)
       return options
     },
     [nodeTypes, disableComments]
   );
-    console.log(menuOptions)
   return (
     <Draggable
       data-flume-component="stage"
@@ -235,14 +234,13 @@ const Stage = ({
     >
       {menuOpen ? (
         <Portal>
-          <div>Hi</div>
           <NestedContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
             options={menuOptions}
             onRequestClose={closeContextMenu}
             onOptionSelected={addNode}
-            label="Add Nested Node"
+            label="Add Node"
           />
         </Portal>
       ) : null}

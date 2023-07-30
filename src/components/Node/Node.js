@@ -196,7 +196,7 @@ const Node = ({
       />
       {menuOpen ? (
         <Portal>
-          <NestedContextMenu
+          <ContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
             options={[
