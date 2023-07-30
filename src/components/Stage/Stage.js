@@ -235,6 +235,7 @@ const Stage = ({
     >
       {menuOpen ? (
         <Portal>
+          <div>Hi</div>
           <NestedContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
