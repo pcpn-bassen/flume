@@ -128,10 +128,12 @@ const NestedContextMenu = ({
     }
   }, [selectedIndex]);
 
-    const handleGroupMouseEnter = (groupOptions, event) => {
+  const handleGroupMouseEnter = (groupOptions, event) => {
+    const rect = menuWrapper.current.getBoundingClientRect();
     setSubMenuOptions(groupOptions);
-    setSubMenuPosition({ x: event.target.getBoundingClientRect().right, y: event.target.getBoundingClientRect().top });
+    setSubMenuPosition({ x: rect.right, y: event.target.getBoundingClientRect().top - rect.top });
   };
+  
 
   const handleGroupMouseLeave = () => {
     setSubMenuOptions(null);
@@ -241,7 +243,7 @@ const ContextOption = ({
 };
 
 const SubContextMenu = ({ x, y, options, onSelect }) => (
-  <div className={styles.menuWrapper} style={{ position: 'absolute', top: y, left: x }}>
+  <div className={styles.menuWrapper} data-flume-component="ctx-submenu" style={{ position: 'absolute', top: y, left: x }}>
     {options.map((option, index) => (
       <ContextOption
         menuId={option.group}
