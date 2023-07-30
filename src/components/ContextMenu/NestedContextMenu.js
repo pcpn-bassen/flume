@@ -129,10 +129,10 @@ const NestedContextMenu = ({
   }, [selectedIndex]);
 
   const handleGroupMouseEnter = (groupOptions, event) => {
-    const rect = menuWrapper.current.getBoundingClientRect();
+    const rect = event.target.getBoundingClientRect();
     setSubMenuOptions(groupOptions);
-    setSubMenuPosition({ x: rect.right, y: event.target.getBoundingClientRect().top - rect.top });
-  };
+    setSubMenuPosition({ x: rect.right, y: rect.top });
+  };  
   
 
   const handleGroupMouseLeave = () => {
