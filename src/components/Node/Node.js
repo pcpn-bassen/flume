@@ -8,7 +8,7 @@ import {
 } from "../../context";
 import { getPortRect, calculateCurve } from "../../connectionCalculator";
 import { Portal } from "react-portal";
-import ContextMenu from "../ContextMenu/ContextMenu";
+import NestedContextMenu from "../ContextMenu/ContextMenu";
 import IoPorts from "../IoPorts/IoPorts";
 import Draggable from "../Draggable/Draggable";
 
@@ -196,7 +196,7 @@ const Node = ({
       />
       {menuOpen ? (
         <Portal>
-          <ContextMenu
+          <NestedContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
             options={[
