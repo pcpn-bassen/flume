@@ -127,10 +127,9 @@ const NestedContextMenu = ({
   }, [selectedIndex]);
 
   const groupedOptions = React.useMemo(() => {
-    console.log("grouping options: " + options);
     return options.reduce((grouped, option) => {
       (grouped[option.group] = grouped[option.group] || []).push(option);
-      console.log("grouped: " + grouped);
+      console.table(grouped);
       return grouped;
     }, {});
   }, [options]);
@@ -176,8 +175,6 @@ const NestedContextMenu = ({
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
         {Object.entries(groupedOptions).map(([group, options]) => (
-          console.log("group: " + group),
-          console.log("options: " + options),
           <ContextOption
             menuId={group}
             index={0} // Change this if you need to
@@ -197,6 +194,7 @@ const NestedContextMenu = ({
             )}
           </ContextOption>
         ))}
+        Test
         {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
@@ -230,7 +228,6 @@ const ContextOption = ({
 
 const SubContextMenu = ({ options, onSelect }) => (
   <div className={styles.subMenuWrapper}>
-    Hi
     {options.map((option, index) => (
       <ContextOption
         menuId={option.group}
