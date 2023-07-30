@@ -3,7 +3,7 @@ import styles from "./ContextMenu.css";
 import clamp from "lodash/clamp";
 import { nanoid }from "nanoid/non-secure/index";
 
-const ContextMenu = ({
+const NestedContextMenu = ({
   x,
   y,
   options = [],
@@ -20,6 +20,7 @@ const ContextMenu = ({
   const [filter, setFilter] = React.useState("");
   const [menuWidth, setMenuWidth] = React.useState(0);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [hoveredGroup, setHoveredGroup] = React.useState(null);
   const menuId = React.useRef(nanoid(10));
 
   const handleOptionSelected = option => {
@@ -125,6 +126,13 @@ const ContextMenu = ({
     }
   }, [selectedIndex]);
 
+  const groupedOptions = React.useMemo(() => {
+    return options.reduce((grouped, option) => {
+      (grouped[option.group] = grouped[option.group] || []).push(option);
+      return grouped;
+    }, {});
+  }, [options]);
+
   return (
     <div
       data-flume-component="ctx-menu"
@@ -165,17 +173,24 @@ const ContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-        {filteredOptions.map((option, i) => (
+        {Object.entries(groupedOptions).map(([group, options]) => (
           <ContextOption
-            menuId={menuId.current}
-            selected={selectedIndex === i}
-            onClick={() => handleOptionSelected(option)}
-            onMouseEnter={() => setSelectedIndex(null)}
-            index={i}
-            key={option.value + i}
+            menuId={group}
+            index={0} // Change this if you need to
+            onMouseEnter={() => setHoveredGroup(group)}
+            onMouseLeave={() => setHoveredGroup(null)}
+            key={group}
           >
-            <label>{option.label}</label>
-            {option.description ? <p>{option.description}</p> : null}
+            <label>{group}</label>
+            {hoveredGroup === group && (
+              <SubContextMenu
+                options={options}
+                onSelect={option => {
+                  handleOptionSelected(option);
+                  setHoveredGroup(null);
+                }}
+              />
+            )}
           </ContextOption>
         ))}
         {!options.length ? (
@@ -209,4 +224,21 @@ const ContextOption = ({
   );
 };
 
-export default ContextMenu;
+const SubContextMenu = ({ options, onSelect }) => (
+  <div className={styles.subMenuWrapper}>
+    {options.map((option, index) => (
+      <ContextOption
+        menuId={option.group}
+        index={index}
+        onClick={() => onSelect(option)}
+        key={option.value + index}
+      >
+        <label>{option.label}</label>
+        {option.description ? <p>{option.description}</p> : null}
+      </ContextOption>
+    ))}
+  </div>
+);
+
+
+export default NestedContextMenu;

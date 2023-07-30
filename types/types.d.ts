@@ -123,6 +123,10 @@ export interface NodeType {
     /**
      * A human-readable label for the node.
      */
+    group: string | null;
+    /**
+     * A human-readable label for the node-group. Renders in the "Add Node" context menu.
+     */
     label: string;
     /**
      * A human-readable description for the node. Renders in the "Add Node" context menu.

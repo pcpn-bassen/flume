@@ -7,6 +7,7 @@ import Draggable from "../Draggable/Draggable";
 import orderBy from "lodash/orderBy";
 import clamp from "lodash/clamp";
 import { STAGE_ID } from '../../constants'
+import NestedContextMenu from "../ContextMenu/NestedContextMenu";
 
 const Stage = ({
   scale,
@@ -198,11 +199,12 @@ const Stage = ({
           .map(node => ({
             value: node.type,
             label: node.label,
+            group: node.group,
             description: node.description,
             sortIndex: node.sortIndex,
             node
           })),
-        ["sortIndex", "label"]
+        ["group", "sortIndex", "label"]
       )
       if (!disableComments) {
         options.push({ value: "comment", label: "Comment", description: "A comment for documenting nodes", internalType: "comment" })
@@ -233,7 +235,7 @@ const Stage = ({
     >
       {menuOpen ? (
         <Portal>
-          <ContextMenu
+          <NestedContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
             options={menuOptions}
