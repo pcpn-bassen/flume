@@ -176,6 +176,8 @@ const NestedContextMenu = ({
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
         {Object.entries(groupedOptions).map(([group, options]) => (
+          console.log("group: " + group),
+          console.log("options: " + options),
           <ContextOption
             menuId={group}
             index={0} // Change this if you need to
