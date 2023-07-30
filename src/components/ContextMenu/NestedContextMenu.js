@@ -230,6 +230,7 @@ const ContextOption = ({
 
 const SubContextMenu = ({ options, onSelect }) => (
   <div className={styles.subMenuWrapper}>
+    Hi
     {options.map((option, index) => (
       <ContextOption
         menuId={option.group}

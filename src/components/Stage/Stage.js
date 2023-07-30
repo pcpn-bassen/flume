@@ -209,6 +209,7 @@ const Stage = ({
       if (!disableComments) {
         options.push({ value: "comment", label: "Comment", description: "A comment for documenting nodes", internalType: "comment" })
       }
+      console.log(options)
       return options
     },
     [nodeTypes, disableComments]
