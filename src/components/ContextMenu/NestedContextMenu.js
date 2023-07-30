@@ -21,6 +21,8 @@ const NestedContextMenu = ({
   const [menuWidth, setMenuWidth] = React.useState(0);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [hoveredGroup, setHoveredGroup] = React.useState(null);
+  const [subMenuPosition, setSubMenuPosition] = React.useState(null);
+  const [subMenuOptions, setSubMenuOptions] = React.useState(null);
   const menuId = React.useRef(nanoid(10));
 
   const handleOptionSelected = option => {
@@ -126,6 +128,16 @@ const NestedContextMenu = ({
     }
   }, [selectedIndex]);
 
+    const handleGroupMouseEnter = (groupOptions, event) => {
+    setSubMenuOptions(groupOptions);
+    setSubMenuPosition({ x: event.target.getBoundingClientRect().right, y: event.target.getBoundingClientRect().top });
+  };
+
+  const handleGroupMouseLeave = () => {
+    setSubMenuOptions(null);
+    setSubMenuPosition(null);
+  };
+
   const groupedOptions = React.useMemo(() => {
     return options.reduce((grouped, option) => {
       (grouped[option.group] = grouped[option.group] || []).push(option);
@@ -174,30 +186,33 @@ const NestedContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-        {Object.entries(groupedOptions).map(([group, options]) => (
+                {Object.entries(groupedOptions).map(([group, options]) => (
           <ContextOption
             menuId={group}
             index={0} // Change this if you need to
-            onMouseEnter={() => setHoveredGroup(group)}
-            onMouseLeave={() => setHoveredGroup(null)}
+            onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
+            onMouseLeave={handleGroupMouseLeave}
             key={group}
           >
             <label>{group}</label>
-            {hoveredGroup === group && (
-              <SubContextMenu
-                options={options}
-                onSelect={option => {
-                  handleOptionSelected(option);
-                  setHoveredGroup(null);
-                }}
-              />
-            )}
           </ContextOption>
         ))}
-        {!options.length ? (
+                {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
       </div>
+      {subMenuPosition && subMenuOptions && (
+        <SubContextMenu
+          x={subMenuPosition.x}
+          y={subMenuPosition.y}
+          options={subMenuOptions}
+          onSelect={option => {
+            handleOptionSelected(option);
+            setSubMenuOptions(null);
+            setSubMenuPosition(null);
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -225,8 +240,8 @@ const ContextOption = ({
   );
 };
 
-const SubContextMenu = ({ options, onSelect }) => (
-  <div className={styles.subMenuWrapper}>
+const SubContextMenu = ({ x, y, options, onSelect }) => (
+  <div className={styles.subMenuWrapper} style={{ position: 'absolute', top: y, left: x }}>
     {options.map((option, index) => (
       <ContextOption
         menuId={option.group}
