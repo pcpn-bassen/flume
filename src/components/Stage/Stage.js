@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Stage.css";
 import { Portal } from "react-portal";
-import ContextMenu from "../ContextMenu/ContextMenu";
 import { NodeTypesContext, NodeDispatchContext } from "../../context";
 import Draggable from "../Draggable/Draggable";
 import orderBy from "lodash/orderBy";
