@@ -124,6 +124,8 @@ const ContextMenu = ({
       }
     }
   }, [selectedIndex]);
+ console.log("ContextMenu.js");
+ console.log(filteredOptions);
 
   return (
     <div

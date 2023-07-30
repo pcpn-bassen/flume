@@ -213,7 +213,7 @@ const Stage = ({
     },
     [nodeTypes, disableComments]
   );
-
+    console.log(menuOptions)
   return (
     <Draggable
       data-flume-component="stage"
@@ -241,7 +241,7 @@ const Stage = ({
             options={menuOptions}
             onRequestClose={closeContextMenu}
             onOptionSelected={addNode}
-            label="Add Node"
+            label="Add Nested Node"
           />
         </Portal>
       ) : null}
