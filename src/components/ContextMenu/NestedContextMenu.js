@@ -127,8 +127,10 @@ const NestedContextMenu = ({
   }, [selectedIndex]);
 
   const groupedOptions = React.useMemo(() => {
+    console.log("grouping options: " + options);
     return options.reduce((grouped, option) => {
       (grouped[option.group] = grouped[option.group] || []).push(option);
+      console.log("grouped: " + grouped);
       return grouped;
     }, {});
   }, [options]);
