@@ -156,6 +156,7 @@ export declare type NodeTypeMap = {
 export declare type DynamicPortTypeBuilder = (inputData: InputData, connections: Connections, context: any) => PortType[];
 export interface NodeTypeConfig extends Omit<Partial<NodeType>, "inputs" | "outputs"> {
     type: string;
+    group: string | null;
     /**
      * Represents the ports available to be connected as inputs to the node. Must be one of the following types:
      * - An array of ports
