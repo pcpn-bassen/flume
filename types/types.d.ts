@@ -233,6 +233,7 @@ export declare type Connections = {
 export declare type FlumeNode = {
     id: string;
     type: string;
+    group: string | null;
     width: number;
     x: number;
     y: number;
