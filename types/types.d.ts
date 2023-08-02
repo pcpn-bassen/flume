@@ -123,6 +123,10 @@ export interface NodeType {
     /**
      * A human-readable label for the node.
      */
+    group?: string;
+    /**
+     * A human-readable label for the node-group. Renders in the "Add Node" context menu.
+     */
     label: string;
     /**
      * A human-readable description for the node. Renders in the "Add Node" context menu.
@@ -229,6 +233,7 @@ export declare type Connections = {
 export declare type FlumeNode = {
     id: string;
     type: string;
+    group?: string;
     width: number;
     x: number;
     y: number;

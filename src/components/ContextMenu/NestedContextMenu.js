@@ -3,7 +3,7 @@ import styles from "./ContextMenu.css";
 import clamp from "lodash/clamp";
 import { nanoid }from "nanoid/non-secure/index";
 
-const ContextMenu = ({
+const NestedContextMenu = ({
   x,
   y,
   options = [],
@@ -20,6 +20,9 @@ const ContextMenu = ({
   const [filter, setFilter] = React.useState("");
   const [menuWidth, setMenuWidth] = React.useState(0);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [hoveredGroup, setHoveredGroup] = React.useState(null);
+  const [subMenuPosition, setSubMenuPosition] = React.useState(null);
+  const [subMenuOptions, setSubMenuOptions] = React.useState(null);
   const menuId = React.useRef(nanoid(10));
 
   const handleOptionSelected = option => {
@@ -125,6 +128,25 @@ const ContextMenu = ({
     }
   }, [selectedIndex]);
 
+  const handleGroupMouseEnter = (groupOptions, event) => {
+    const rect = event.target.getBoundingClientRect();
+    setSubMenuOptions(groupOptions);
+    setSubMenuPosition({ x: rect.right, y: rect.top });
+  };  
+  
+
+  const handleGroupMouseLeave = () => {
+    setSubMenuOptions(null);
+    setSubMenuPosition(null);
+  };
+
+  const groupedOptions = React.useMemo(() => {
+    return options.reduce((grouped, option) => {
+      (grouped[option.group] = grouped[option.group] || []).push(option);
+      return grouped;
+    }, {});
+  }, [options]);
+
   return (
     <div
       data-flume-component="ctx-menu"
@@ -165,23 +187,33 @@ const ContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-        {filteredOptions.map((option, i) => (
+                {Object.entries(groupedOptions).map(([group, options]) => (
           <ContextOption
-            menuId={menuId.current}
-            selected={selectedIndex === i}
-            onClick={() => handleOptionSelected(option)}
-            onMouseEnter={() => setSelectedIndex(null)}
-            index={i}
-            key={option.value + i}
+            menuId={group}
+            index={0} // Change this if you need to
+            onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
+            onMouseLeave={handleGroupMouseLeave}
+            key={group}
           >
-            <label>{option.label}</label>
-            {option.description ? <p>{option.description}</p> : null}
+            <label>{group}</label>
           </ContextOption>
         ))}
-        {!options.length ? (
+                {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
       </div>
+      {subMenuPosition && subMenuOptions && (
+        <SubContextMenu
+          x={subMenuPosition.x}
+          y={subMenuPosition.y}
+          options={subMenuOptions}
+          onSelect={option => {
+            handleOptionSelected(option);
+            setSubMenuOptions(null);
+            setSubMenuPosition(null);
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -209,4 +241,21 @@ const ContextOption = ({
   );
 };
 
-export default ContextMenu;
+const SubContextMenu = ({ x, y, options, onSelect }) => (
+  <div className={styles.menuWrapper} data-flume-component="ctx-submenu" style={{ position: 'absolute', top: y, left: x }}>
+    {options.map((option, index) => (
+      <ContextOption
+        menuId={option.group}
+        index={index}
+        onClick={() => onSelect(option)}
+        key={option.value + index}
+      >
+        <label>{option.label}</label>
+        {option.description ? <p>{option.description}</p> : null}
+      </ContextOption>
+    ))}
+  </div>
+);
+
+
+export default NestedContextMenu;

@@ -1,5 +1,5 @@
 .menuWrapper{
-  position: fixed;
+  position:fixed;
   z-index: 9999;
   background: rgba(29, 32, 34, 0.95);
   border-radius: 5px;
