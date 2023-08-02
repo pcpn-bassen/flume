@@ -30,6 +30,12 @@ const TextInput = ({
     document.addEventListener("mouseup", handleDragEnd);
   };
 
+  const handleKeyDown = (e) => {
+    e.target.style.height = 'inherit';
+    e.target.style.height = `${e.target.scrollHeight}px`;
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+  }
+
   return (
     <div className={styles.wrapper} data-flume-component="text-input">
       {type === "number" ? (
@@ -73,6 +79,7 @@ const TextInput = ({
           data-flume-component="text-input-textarea"
           onChange={e => onChange(e.target.value)}
           onMouseDown={handlePossibleResize}
+          onKeyDown={handleKeyDown}
           type="text"
           placeholder={placeholder}
           className={styles.input}
