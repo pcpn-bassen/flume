@@ -1,7 +1,28 @@
 .wrapper{
   background: none;
   border: none;
+  display: grid;
 }
+
+.wrapper::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.wrapper > .input {
+  resize: none;
+  overflow: hidden;
+}
+
+.wrapper > .input, .wrapper::after {
+  border: 1px solid black;
+  padding: 0.5rem;
+  font: inherit;
+
+  grid-area: 1 / 1 / 2 / 2;
+}
+
 .input{
   width: 100%;
   border-radius: 4px;
@@ -11,8 +32,5 @@
   outline: none;
   &::placeholder{
     color: rgb(47, 49, 50);
-  }
-  &:focus{
-    background: linear-gradient(to bottom, #676b6e, #75797c);
   }
 }
