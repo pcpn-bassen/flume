@@ -187,7 +187,8 @@ const NestedContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-      {Object.entries(groupedOptions).map(([group, options]) => (
+        {!filter && (options.length > 0) ? 
+      Object.entries(groupedOptions).map(([group, options]) => (
           <ContextOption
             menuId={group}
             index={0} 
@@ -197,7 +198,21 @@ const NestedContextMenu = ({
           >
             <label>{group}</label>
           </ContextOption>
-        ))}
+        ))
+      :
+        filteredOptions.map((option, index) => (
+          <ContextOption
+            menuId={menuId.current}
+            index={0}
+            onClick={() => handleOptionSelected(option)}
+            onMouseEnter={() => setSelectedIndex(index)}
+            key={option.value}
+            selected={selectedIndex === index}
+          >
+            {option.label}
+          </ContextOption>
+        ))
+      }
                 {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
