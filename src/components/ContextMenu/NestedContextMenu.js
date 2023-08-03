@@ -128,21 +128,11 @@ const NestedContextMenu = ({
     }
   }, [selectedIndex]);
 
-  const optionRefs = React.useRef({});
-
-  const getRef = (group) => {
-    if (!optionRefs.current[group]) {
-      optionRefs.current[group] = React.createRef();
-    }
-  
-    return optionRefs.current[group];
-  }
-
-  const handleGroupMouseEnter = (groupOptions, group) => {
-    const rect = getRef(group).current.getBoundingClientRect();
+  const handleGroupMouseEnter = (groupOptions, event) => {
+    const rect = event.target.getBoundingClientRect();
     setSubMenuOptions(groupOptions);
     setSubMenuPosition({ x: rect.right, y: rect.top });
-  };
+  };  
   
 
   const handleGroupMouseLeave = () => {
@@ -198,18 +188,17 @@ const NestedContextMenu = ({
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
       {Object.entries(groupedOptions).map(([group, options]) => (
-      <ContextOption
-        menuId={group}
-        index={0}
-        onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
-        onMouseLeave={handleGroupMouseLeave}
-        ref={getRef(group)}
-        key={group}
-      >
-        <label>{group}</label>
-      </ContextOption>
-    ))}
-          {!options.length ? (
+          <ContextOption
+            menuId={group}
+            index={0} 
+            onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
+            onMouseLeave={handleGroupMouseLeave}
+            key={group}
+          >
+            <label>{group}</label>
+          </ContextOption>
+        ))}
+                {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
       </div>
@@ -229,26 +218,28 @@ const NestedContextMenu = ({
   );
 };
 
-const ContextOption = React.forwardRef(
-  ({ menuId, index, children, onClick, selected, onMouseEnter, onMouseLeave }, ref) => {
-    return (
-      <div
-        data-flume-component="ctx-menu-option"
-        className={styles.option}
-        role="menuitem"
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        data-selected={selected}
-        id={`${menuId}-${index}`}
-        ref={ref}
-      >
-        {children}
-      </div>
-    );
-  }
-);
-
+const ContextOption = ({
+  menuId,
+  index,
+  children,
+  onClick,
+  selected,
+  onMouseEnter
+}) => {
+  return (
+    <div
+      data-flume-component="ctx-menu-option"
+      className={styles.option}
+      role="menuitem"
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      data-selected={selected}
+      id={`${menuId}-${index}`}
+    >
+      {children}
+    </div>
+  );
+};
 
 const SubContextMenu = ({ x, y, options, onSelect }) => (
   <div className={styles.menuWrapper} data-flume-component="ctx-submenu" style={{ position: 'absolute', top: y, left: x }}>
