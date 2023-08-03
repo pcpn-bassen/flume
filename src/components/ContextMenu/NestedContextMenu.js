@@ -199,8 +199,13 @@ const NestedContextMenu = ({
         onMouseLeave={handleGroupMouseLeave}
         ref={ref => optionRefs.current[groupIndex] = ref}
         key={group}
-      >
+      > 
+      <div className="subContextOption">
             <label>{group}</label>
+            <svg xmlns="http://www.w3.org/2000/svg"  stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+              <path d="m9 18 6-6-6-6"/>
+              </svg>
+              </div>
           </SubContextOption>
         ))
       :
