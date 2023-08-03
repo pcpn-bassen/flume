@@ -129,10 +129,11 @@ const NestedContextMenu = ({
   }, [selectedIndex]);
 
   const handleGroupMouseEnter = (groupOptions, event) => {
-    const rect = event.target.getBoundingClientRect();
+    const { offsetX, offsetY } = event.nativeEvent;
     setSubMenuOptions(groupOptions);
-    setSubMenuPosition({ x: rect.right, y: rect.top });
-  };  
+    setSubMenuPosition({ x: offsetX, y: offsetY });
+  };
+   
   
 
   const handleGroupMouseLeave = () => {
@@ -154,6 +155,7 @@ const NestedContextMenu = ({
       onMouseDown={e => e.stopPropagation()}
       onKeyDown={handleKeyDown}
       style={{
+        position: "relative",
         left: x,
         top: y,
         width: filter ? menuWidth : "auto"
@@ -187,7 +189,7 @@ const NestedContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-                {Object.entries(groupedOptions).map(([group, options]) => (
+      {Object.entries(groupedOptions).map(([group, options]) => (
           <ContextOption
             menuId={group}
             index={0} // Change this if you need to
