@@ -208,7 +208,7 @@ const NestedContextMenu = ({
             </div>
           </SubContextOption>
         )),
-        ...Object.entries(groupedOptions).filter((groupedOption) => groupedOption.group == null ).map((option) => (
+        ...Object.entries(groupedOptions).filter((groupedOption) => groupedOption.group == null ).map((option, index) => (
           <ContextOption
             menuId={menuId.current}
             index={0}
