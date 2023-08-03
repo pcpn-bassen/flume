@@ -190,8 +190,8 @@ const NestedContextMenu = ({
         ref={menuOptionsWrapper}
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
-        {!filter && (options.length > 0) ? 
-      Object.entries(groupedOptions).map(([group, options], groupIndex) => (
+        {!filter && (options.length > 0) ? [ 
+      ...Object.entries(groupedOptions).filter((groupedOption) => groupedOption.group != null ).map(([group, options], groupIndex) => (
         <SubContextOption
         menuId={group}
         index={groupIndex} 
@@ -199,10 +199,27 @@ const NestedContextMenu = ({
         onMouseLeave={handleGroupMouseLeave}
         ref={ref => optionRefs.current[groupIndex] = ref}
         key={group}
-      >
-            <label>{group}</label>
+        > 
+            <div className="subContextOption">
+              <label>{group}</label>
+              <svg xmlns="http://www.w3.org/2000/svg"  stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </div>
           </SubContextOption>
-        ))
+        )),
+        ...Object.entries(groupedOptions).filter((groupedOption) => groupedOption.group == null ).map((option) => (
+          <ContextOption
+            menuId={menuId.current}
+            index={0}
+            onClick={() => handleOptionSelected(option)}
+            onMouseEnter={() => setSelectedIndex(index)}
+            key={option.value}
+            selected={selectedIndex === index}
+          >
+            {option.label}
+          </ContextOption>
+        )) ]
       :
         filteredOptions.map((option, index) => (
           <ContextOption
