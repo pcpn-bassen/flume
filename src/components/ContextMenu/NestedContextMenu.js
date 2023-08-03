@@ -208,29 +208,26 @@ const NestedContextMenu = ({
     >
       <div className="subContextOption">
         <label>{group}</label>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          class="lucide lucide-chevron-right"
-        >
-          <path d="m9 18 6-6-6-6" />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+          <path d="m9 18 6-6-6-6"/>
+          </svg>
       </div>
     </SubContextOption>
   )),
-  ...options.filter((option) => !option.isGrouped).map((option, index) => (
-    <ContextOption
-      menuId={menuId.current}
-      index={index}
-      onClick={() => handleOptionSelected(option)}
-      onMouseEnter={() => setSelectedIndex(index)}
-      key={option.value}
-      selected={selectedIndex === index}
-    >
-      {option.label}
-    </ContextOption>
-  )),
+  ...Object.entries(groupedOptions)
+    .flatMap(([group, options]) => options.filter(option => !option.isGrouped)
+    .map((option, index) => (
+      <ContextOption
+        menuId={menuId.current}
+        index={0}
+        onClick={() => handleOptionSelected(option)}
+        onMouseEnter={() => setSelectedIndex(index)}
+        key={option.value}
+        selected={selectedIndex === index}
+      >
+        {option.label}
+      </ContextOption>
+    )))
 ] :
       filteredOptions.map((option, index) => (
           <ContextOption
