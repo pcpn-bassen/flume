@@ -145,10 +145,14 @@ const NestedContextMenu = ({
 
   const groupedOptions = React.useMemo(() => {
     return options.reduce((grouped, option) => {
-      (grouped[option.group] = grouped[option.group] || []).push(option);
+      (grouped[option.group] = grouped[option.group] || []).push({
+        ...option,
+        isGrouped: !!option.group
+      });
       return grouped;
     }, {});
   }, [options]);
+
 
   return (
     <div
@@ -191,7 +195,9 @@ const NestedContextMenu = ({
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
         {!filter && (options.length > 0) ? [
-  ...Object.entries(groupedOptions).map(([group, options], groupIndex) => (
+  ...Object.entries(groupedOptions)
+  .filter(([group, options]) => options[0].isGrouped)
+  .map(([group, options], groupIndex) => (
     <SubContextOption
       menuId={group}
       index={groupIndex}
@@ -225,10 +231,8 @@ const NestedContextMenu = ({
       {option.label}
     </ContextOption>
   )),
-]
-
-      :
-        filteredOptions.map((option, index) => (
+] :
+      filteredOptions.map((option, index) => (
           <ContextOption
             menuId={menuId.current}
             index={0}
