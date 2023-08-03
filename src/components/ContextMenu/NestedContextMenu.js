@@ -128,21 +128,22 @@ const NestedContextMenu = ({
     }
   }, [selectedIndex]);
 
-  const optionRefs = React.useRef(new Map());
+  const optionRefs = React.useRef({});
 
-React.useEffect(() => {
-  options.forEach((option) => {
-    if (!optionRefs.current.has(option.group)) {
-      optionRefs.current.set(option.group, React.createRef());
+  const getRef = (group) => {
+    if (!optionRefs.current[group]) {
+      optionRefs.current[group] = React.createRef();
     }
-  });
-}, [options]);
+  
+    return optionRefs.current[group];
+  }
 
-const handleGroupMouseEnter = (groupOptions, group) => {
-  const rect = optionRefs.current.get(group).current.getBoundingClientRect();
-  setSubMenuOptions(groupOptions);
-  setSubMenuPosition({ x: rect.right, y: rect.top });
-};
+  const handleGroupMouseEnter = (groupOptions, group) => {
+    const rect = getRef(group).current.getBoundingClientRect();
+    setSubMenuOptions(groupOptions);
+    setSubMenuPosition({ x: rect.right, y: rect.top });
+  };
+  
 
   const handleGroupMouseLeave = () => {
     setSubMenuOptions(null);
@@ -197,18 +198,18 @@ const handleGroupMouseEnter = (groupOptions, group) => {
         style={{ maxHeight: clamp(window.innerHeight - y - 70, 10, 300) }}
       >
       {Object.entries(groupedOptions).map(([group, options]) => (
-        <ContextOption
-          menuId={group}
-            index={0}
-            onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
-            onMouseLeave={handleGroupMouseLeave}
-            ref={optionRefs.current.get(group)} // get ref associated with this group
-            key={group}
-        >
-          <label>{group}</label>
-        </ContextOption>
-      ))}
-                {!options.length ? (
+      <ContextOption
+        menuId={group}
+        index={0}
+        onMouseEnter={(event) => handleGroupMouseEnter(options, event)}
+        onMouseLeave={handleGroupMouseLeave}
+        ref={getRef(group)}
+        key={group}
+      >
+        <label>{group}</label>
+      </ContextOption>
+    ))}
+          {!options.length ? (
           <span data-flume-component="ctx-menu-empty" className={styles.emptyText}>{emptyText}</span>
         ) : null}
       </div>
