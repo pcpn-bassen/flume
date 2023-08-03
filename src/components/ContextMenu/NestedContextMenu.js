@@ -225,7 +225,7 @@ const NestedContextMenu = ({
       {option.label}
     </ContextOption>
   )),
-];
+]
 
       :
         filteredOptions.map((option, index) => (
