@@ -235,6 +235,7 @@ groupIconsMap.set('Utility', <svg xmlns="http://www.w3.org/2000/svg" width="24" 
         key={option.value}
         selected={selectedIndex === index}
       >
+        {option.icon ? option.icon : null}
         {option.label}
       </ContextOption>
     )))
@@ -248,6 +249,7 @@ groupIconsMap.set('Utility', <svg xmlns="http://www.w3.org/2000/svg" width="24" 
             key={option.value}
             selected={selectedIndex === index}
           >
+            {option.icon ? option.icon : null}
             {option.label}
           </ContextOption>
         ))
