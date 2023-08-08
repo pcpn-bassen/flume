@@ -174,8 +174,9 @@ const ContextMenu = ({
             index={i}
             key={option.value + i}
           >
+            {option.icon ? option.icon : null}
             <label>{option.label}</label>
-            {option.description ? <p>{option.description}</p> : null}
+            <div data-flume-component="ctx-description">{option.description ? <p>{option.description}</p> : null}</div>
           </ContextOption>
         ))}
         {!options.length ? (
