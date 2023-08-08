@@ -214,7 +214,7 @@ groupIconsMap.set('Logic', <svg data-flume-component="ctx-submenu-icon" xmlns="h
       ref={(ref) => (optionRefs.current[groupIndex] = ref)}
       key={group}
     >
-      {groupIconsMap.get(option.group)}
+      {groupIconsMap.get(group)}
         <label>{group}</label>
         <svg data-flume-component="ctx-submenu-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
     </SubContextOption>
