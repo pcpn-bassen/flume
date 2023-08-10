@@ -143,6 +143,8 @@ const NestedContextMenu = ({
     setSubMenuPosition(null);
   };
 
+  //Eventually externalize this
+
   const groupOrder = ['Data', 'Input', 'Math', 'Text', 'Logic', 'Time', 'Location', 'Color', 'Vector', 'Conversion', 'Utility'];
 
   const groupedOptions = React.useMemo(() => {

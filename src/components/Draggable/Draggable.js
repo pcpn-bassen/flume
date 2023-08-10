@@ -96,24 +96,29 @@ export default ({
   };
 
   const startDragDelay = e => {
+    if (e.target.closest('[data-drag-control="true"]')) {
+        return;
+    }
+
     if (onDragDelayStart) {
-      onDragDelayStart(e);
+        onDragDelayStart(e);
     }
     e.stopPropagation();
     let x;
     let y;
     if ("ontouchstart" in window && e.touches) {
-      x = e.touches[0].clientX;
-      y = e.touches[0].clientY;
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
     } else {
-      e.preventDefault();
-      x = e.clientX;
-      y = e.clientY;
+        e.preventDefault();
+        x = e.clientX;
+        y = e.clientY;
     }
     startCoordinates.current = { x, y };
     document.addEventListener("mouseup", endDragDelay);
     document.addEventListener("mousemove", checkDragDelay);
-  };
+};
+
 
   return (
     <div
