@@ -151,9 +151,9 @@ const Node = ({
   const addNode = () => {
     const wrapperRect = nodeWrapper.current.getBoundingClientRect();
     const x =
-      byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2);
+      byScale(menuCoordinates.x + 25);
     const y =
-      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.height / 2);
+      byScale(menuCoordinates.y + 25);
     nodesDispatch({
       type: "ADD_NODE",
       x,
