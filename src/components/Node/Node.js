@@ -149,7 +149,7 @@ const Node = ({
   };
 
   const addNode = () => {
-    const wrapperRect = wrapper.current.getBoundingClientRect();
+    const wrapperRect = nodeWrapper.current.getBoundingClientRect();
     const x =
       byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
       byScale(translate.x);
