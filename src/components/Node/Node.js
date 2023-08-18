@@ -149,11 +149,10 @@ const Node = ({
   };
 
   const addNode = () => {
-    const wrapperRect = nodeWrapper.current.getBoundingClientRect();
     const x =
-      byScale(menuCoordinates.x + 1);
+      byScale(menuCoordinates.x / 2 + 50);
     const y =
-      byScale(menuCoordinates.y + 1);
+      byScale(menuCoordinates.y / 2 + 50);
     nodesDispatch({
       type: "ADD_NODE",
       x,
