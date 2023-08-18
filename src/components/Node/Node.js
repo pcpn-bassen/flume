@@ -148,11 +148,37 @@ const Node = ({
     });
   };
 
+  const addNode = ({ node, internalType }) => {
+    const wrapperRect = wrapper.current.getBoundingClientRect();
+    const x =
+      byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
+      byScale(translate.x);
+    const y =
+      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.height / 2) +
+      byScale(translate.y);
+    if (internalType === "comment") {
+      dispatchComments({
+        type: "ADD_COMMENT",
+        x,
+        y
+      });
+    } else {
+      dispatchNodes({
+        type: "ADD_NODE",
+        x,
+        y,
+        nodeType: node.type
+      });
+    }
+  };
+
   const handleMenuOption = ({ value }) => {
     switch (value) {
       case "deleteNode":
         deleteNode();
         break;
+      case "duplicateNode":
+        addNode();
       default:
         return;
     }
@@ -209,8 +235,14 @@ const Node = ({
                       description: "Deletes a node and all of its connections."
                     }
                   ]
-                : [])
-            ]}
+                : []),
+              {
+                icon: <svg data-flume-component="ctx-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>,
+                label: "Duplicate Node",
+                value: "duplicateNode",
+                description: "Duplicates a node without its connections."
+              }
+              ]}
             onRequestClose={closeContextMenu}
             onOptionSelected={handleMenuOption}
             hideFilter
