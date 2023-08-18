@@ -72,32 +72,32 @@ const Node = ({
           x:
             byScale(
               toRect.x -
-                stageRect.current.x +
-                portHalf -
-                stageRect.current.width / 2
+              stageRect.current.x +
+              portHalf -
+              stageRect.current.width / 2
             ) + byScale(stageState.translate.x),
           y:
             byScale(
               toRect.y -
-                stageRect.current.y +
-                portHalf -
-                stageRect.current.height / 2
+              stageRect.current.y +
+              portHalf -
+              stageRect.current.height / 2
             ) + byScale(stageState.translate.y)
         };
         const to = {
           x:
             byScale(
               fromRect.x -
-                stageRect.current.x +
-                portHalf -
-                stageRect.current.width / 2
+              stageRect.current.x +
+              portHalf -
+              stageRect.current.width / 2
             ) + byScale(stageState.translate.x),
           y:
             byScale(
               fromRect.y -
-                stageRect.current.y +
-                portHalf -
-                stageRect.current.height / 2
+              stageRect.current.y +
+              portHalf -
+              stageRect.current.height / 2
             ) + byScale(stageState.translate.y)
         };
         cnx.setAttribute("d", calculateCurve(from, to));
@@ -148,7 +148,7 @@ const Node = ({
     });
   };
 
-  const addNode = ({ node, internalType }) => {
+  const addNode = () => {
     const wrapperRect = wrapper.current.getBoundingClientRect();
     const x =
       byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
@@ -156,20 +156,12 @@ const Node = ({
     const y =
       byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.height / 2) +
       byScale(translate.y);
-    if (internalType === "comment") {
-      dispatchComments({
-        type: "ADD_COMMENT",
-        x,
-        y
-      });
-    } else {
-      dispatchNodes({
-        type: "ADD_NODE",
-        x,
-        y,
-        nodeType: node.type
-      });
-    }
+    nodesDispatch({
+      type: "ADD_NODE",
+      x,
+      y,
+      nodeType: type
+    });
   };
 
   const handleMenuOption = ({ value }) => {
@@ -225,24 +217,23 @@ const Node = ({
           <ContextMenu
             x={menuCoordinates.x}
             y={menuCoordinates.y}
-            options={[
-              ...(deletable !== false
-                ? [
-                    {
-                      icon: <svg data-flume-component="ctx-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>,
-                      label: "Delete Node",
-                      value: "deleteNode",
-                      description: "Deletes a node and all of its connections."
-                    }
-                  ]
-                : []),
-              {
-                icon: <svg data-flume-component="ctx-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>,
-                label: "Duplicate Node",
-                value: "duplicateNode",
-                description: "Duplicates a node without its connections."
-              }
-              ]}
+            options={[{
+              icon: <svg data-flume-component="ctx-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>,
+              label: "Duplicate Node",
+              value: "duplicateNode",
+              description: "Duplicates a node without its connections."
+            },
+            ...(deletable !== false
+              ? [
+                {
+                  icon: <svg data-flume-component="ctx-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></svg>,
+                  label: "Delete Node",
+                  value: "deleteNode",
+                  description: "Deletes a node and all of its connections."
+                }
+              ]
+              : [])
+            ]}
             onRequestClose={closeContextMenu}
             onOptionSelected={handleMenuOption}
             hideFilter
