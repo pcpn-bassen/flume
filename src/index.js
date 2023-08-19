@@ -212,6 +212,7 @@ export let NodeEditor = (
                             onDragStart={recalculateStageRect}
                             renderNodeHeader={renderNodeHeader}
                             key={node.id}
+                            translate={stageState.translate}
                           />
                         ))}
                         <Connections nodes={nodes} editorId={editorId} />

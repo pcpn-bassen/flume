@@ -4,7 +4,8 @@ import {
   NodeTypesContext,
   NodeDispatchContext,
   StageContext,
-  CacheContext
+  CacheContext,
+  WrapperContext
 } from "../../context";
 import { getPortRect, calculateCurve } from "../../connectionCalculator";
 import { Portal } from "react-portal";
@@ -23,12 +24,14 @@ const Node = ({
   inputData,
   root,
   onDragStart,
-  renderNodeHeader
+  renderNodeHeader,
+  translate
 }) => {
   const cache = React.useContext(CacheContext);
   const nodeTypes = React.useContext(NodeTypesContext);
   const nodesDispatch = React.useContext(NodeDispatchContext);
   const stageState = React.useContext(StageContext);
+  const wrapperRef = React.useContext(WrapperContext);
   const currentNodeType = nodeTypes[type];
   const { label, deletable, inputs = [], outputs = [] } = currentNodeType;
 
@@ -149,15 +152,17 @@ const Node = ({
   };
 
   const addNode = () => {
-    const wrapperRect = nodeWrapper.current.getBoundingClientRect();
+    const wrapperRect = wrapperRef.current.getBoundingClientRect();
     const x =
-      byScale(menuCoordinates.x + 1);
+      byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
+      byScale(translate.x);
     const y =
-      byScale(menuCoordinates.y + 1);
+      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.height / 2) +
+      byScale(translate.y);
     nodesDispatch({
       type: "ADD_NODE",
-      x,
-      y,
+      x: x,
+      y: y,
       nodeType: type
     });
   };

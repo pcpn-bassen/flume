@@ -9,3 +9,4 @@ export const StageContext = React.createContext()
 export const CacheContext = React.createContext()
 export const RecalculateStageRectContext = React.createContext()
 export const EditorIdContext = React.createContext()
+export const WrapperContext = React.createContext();
