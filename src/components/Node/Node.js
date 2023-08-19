@@ -157,7 +157,7 @@ const Node = ({
       byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
       byScale(translate.x);
     const y =
-      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.width / 2) +
+      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.height / 2) +
       byScale(translate.y);
     nodesDispatch({
       type: "ADD_NODE",
