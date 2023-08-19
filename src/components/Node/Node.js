@@ -4,7 +4,8 @@ import {
   NodeTypesContext,
   NodeDispatchContext,
   StageContext,
-  CacheContext
+  CacheContext,
+  WrapperContext
 } from "../../context";
 import { getPortRect, calculateCurve } from "../../connectionCalculator";
 import { Portal } from "react-portal";
@@ -13,7 +14,6 @@ import IoPorts from "../IoPorts/IoPorts";
 import Draggable from "../Draggable/Draggable";
 
 const Node = ({
-  wrapperRef,
   id,
   width,
   x,
@@ -31,6 +31,7 @@ const Node = ({
   const nodeTypes = React.useContext(NodeTypesContext);
   const nodesDispatch = React.useContext(NodeDispatchContext);
   const stageState = React.useContext(StageContext);
+  const wrapperRef = React.useContext(WrapperContext);
   const currentNodeType = nodeTypes[type];
   const { label, deletable, inputs = [], outputs = [] } = currentNodeType;
 

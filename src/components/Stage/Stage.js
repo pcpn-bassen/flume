@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Stage.css";
 import { Portal } from "react-portal";
-import { NodeTypesContext, NodeDispatchContext } from "../../context";
+import { NodeTypesContext, NodeDispatchContext, WrapperContext } from "../../context";
 import Draggable from "../Draggable/Draggable";
 import orderBy from "lodash/orderBy";
 import clamp from "lodash/clamp";
@@ -231,6 +231,7 @@ const Stage = ({
       disabled={disablePan || (spaceToPan && !spaceIsPressed)}
       data-flume-stage={true}
     >
+      <WrapperContext.Provider value={wrapper}>
       {menuOpen ? (
         <Portal>
           <NestedContextMenu
@@ -252,12 +253,11 @@ const Stage = ({
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
         >
-          {React.Children.map(children, child => 
-  child.type === Node ? React.cloneElement(child, { wrapperRef: wrapper }) : child
-)}
+          {children}
         </div>
       </div>
       {outerStageChildren}
+      </WrapperContext.Provider>
     </Draggable>
   );
 };
