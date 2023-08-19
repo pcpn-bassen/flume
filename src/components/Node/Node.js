@@ -149,10 +149,8 @@ const Node = ({
   };
 
   const addNode = () => {
-    const x =
-      byScale(menuCoordinates.x / 2 + 50);
-    const y =
-      byScale(menuCoordinates.y / 2 + 50);
+    const x = menuCoordinates.x + 50;
+    const y = menuCoordinates.y + 50; 
     nodesDispatch({
       type: "ADD_NODE",
       x,
