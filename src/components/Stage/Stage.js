@@ -252,7 +252,9 @@ const Stage = ({
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
         >
-          {children}
+          {React.Children.map(children, child => 
+  child.type === Node ? React.cloneElement(child, { wrapperRef: wrapper }) : child
+)}
         </div>
       </div>
       {outerStageChildren}

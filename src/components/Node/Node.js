@@ -13,6 +13,7 @@ import IoPorts from "../IoPorts/IoPorts";
 import Draggable from "../Draggable/Draggable";
 
 const Node = ({
+  wrapperRef,
   id,
   width,
   x,
@@ -33,7 +34,6 @@ const Node = ({
   const currentNodeType = nodeTypes[type];
   const { label, deletable, inputs = [], outputs = [] } = currentNodeType;
 
-  const wrapper = React.useRef();
   const nodeWrapper = React.useRef();
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [menuCoordinates, setMenuCoordinates] = React.useState({ x: 0, y: 0 });
@@ -151,7 +151,7 @@ const Node = ({
   };
 
   const addNode = () => {
-    const wrapperRect = wrapper.current.getBoundingClientRect();
+    const wrapperRect = wrapperRef.current.getBoundingClientRect();
     const x =
       byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
       byScale(translate.x);
