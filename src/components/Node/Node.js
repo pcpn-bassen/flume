@@ -23,7 +23,8 @@ const Node = ({
   inputData,
   root,
   onDragStart,
-  renderNodeHeader
+  renderNodeHeader,
+  translate
 }) => {
   const cache = React.useContext(CacheContext);
   const nodeTypes = React.useContext(NodeTypesContext);
@@ -32,6 +33,7 @@ const Node = ({
   const currentNodeType = nodeTypes[type];
   const { label, deletable, inputs = [], outputs = [] } = currentNodeType;
 
+  const wrapper = React.useRef();
   const nodeWrapper = React.useRef();
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [menuCoordinates, setMenuCoordinates] = React.useState({ x: 0, y: 0 });
@@ -149,12 +151,17 @@ const Node = ({
   };
 
   const addNode = () => {
-    const x = menuCoordinates.x + 50;
-    const y = menuCoordinates.y + 50; 
+    const wrapperRect = wrapper.current.getBoundingClientRect();
+    const x =
+      byScale(menuCoordinates.x - wrapperRect.x - wrapperRect.width / 2) +
+      byScale(translate.x);
+    const y =
+      byScale(menuCoordinates.y - wrapperRect.y - wrapperRect.width / 2) +
+      byScale(translate.y);
     nodesDispatch({
       type: "ADD_NODE",
-      x,
-      y,
+      x: x,
+      y: y,
       nodeType: type
     });
   };
