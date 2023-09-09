@@ -378,9 +378,7 @@ const nodesReducer = (
     case "UPDATE_NODES":
       console.log("Entire Action: ", action)
       console.log("Action Payload: ", action.payload)
-      return {
-        ...action.payload,
-      };
+      return action.payload;
 
     default:
       return nodes;
