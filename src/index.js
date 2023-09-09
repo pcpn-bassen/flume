@@ -105,6 +105,10 @@ export let NodeEditor = (
     setShouldRecalculateConnections(true);
   }, []);
 
+  const updateNodes = (newNodes) => {
+    dispatchNodes({ type: "UPDATE_NODES", payload: newNodes });
+  };
+
   React.useImperativeHandle(ref, () => ({
     getNodes: () => {
       return nodes;
@@ -138,9 +142,7 @@ export let NodeEditor = (
     }
   }, [sideEffectToasts])
 
-  const updateNodes = (newNodes) => {
-    dispatchNodes({ type: "UPDATE_NODES", payload: newNodes });
-  };
+ 
 
   return (
     <PortTypesContext.Provider value={portTypes}>
