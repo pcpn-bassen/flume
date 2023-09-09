@@ -375,6 +375,11 @@ const nodesReducer = (
       };
     }
 
+    case "UPDATE_NODES":
+      return {
+        ...action.payload,
+      };
+
     default:
       return nodes;
   }

@@ -111,7 +111,8 @@ export let NodeEditor = (
     },
     getComments: () => {
       return comments;
-    }
+    },
+    updateNodes,
   }));
 
   const previousNodes = usePrevious(nodes);
@@ -136,6 +137,10 @@ export let NodeEditor = (
       setSideEffectToasts(null)
     }
   }, [sideEffectToasts])
+
+  const updateNodes = (newNodes) => {
+    dispatchNodes({ type: "UPDATE_NODES", payload: newNodes });
+  };
 
   return (
     <PortTypesContext.Provider value={portTypes}>
