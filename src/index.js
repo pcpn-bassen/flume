@@ -43,6 +43,7 @@ export let NodeEditor = (
     onChange,
     onCommentsChange,
     initialScale,
+    onScaleChange,
     spaceToPan = false,
     hideComments = false,
     disableComments = false,
@@ -84,6 +85,12 @@ export let NodeEditor = (
     translate: { x: 0, y: 0 }
   });
 
+  React.useEffect(() => {
+    if (onScaleChange) {
+      onScaleChange(stageState.scale);
+    }
+  }, [stageState.scale, onScaleChange]);
+
   const recalculateConnections = React.useCallback(() => {
     createConnections(nodes, stageState, editorId);
   }, [nodes, editorId, stageState]);
@@ -105,13 +112,18 @@ export let NodeEditor = (
     setShouldRecalculateConnections(true);
   }, []);
 
+  const updateNodes = (newNodes) => {
+    dispatchNodes({ type: "UPDATE_NODES", payload: newNodes });
+  };
+
   React.useImperativeHandle(ref, () => ({
     getNodes: () => {
       return nodes;
     },
     getComments: () => {
       return comments;
-    }
+    },
+    updateNodes,
   }));
 
   const previousNodes = usePrevious(nodes);
@@ -136,6 +148,8 @@ export let NodeEditor = (
       setSideEffectToasts(null)
     }
   }, [sideEffectToasts])
+
+ 
 
   return (
     <PortTypesContext.Provider value={portTypes}>
