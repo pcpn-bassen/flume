@@ -318,6 +318,8 @@ const nodesReducer = (
       if (nodeTypes[nodeType].root) {
         newNode.root = true;
       }
+      console.log({...nodes,
+        [newNodeId]: newNode})
       return {
         ...nodes,
         [newNodeId]: newNode
