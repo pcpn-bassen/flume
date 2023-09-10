@@ -11,6 +11,7 @@ interface NodeEditorProps {
     onCommentsChange?: (comments: FlumeCommentMap) => void;
     initialScale?: number;
     onScaleChange?: (scale: number) => void;
+    onTranslateChange?: (translate: {x: number, y: number}) => void;
     spaceToPan?: boolean;
     hideComments?: boolean;
     disableComments?: boolean;
