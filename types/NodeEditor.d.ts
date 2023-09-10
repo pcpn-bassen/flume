@@ -19,6 +19,7 @@ interface NodeEditorProps {
     circularBehavior?: CircularBehavior;
     renderNodeHeader?: NodeHeaderRenderCallback;
     debug?: boolean;
+    style?: React.CSSProperties;
 }
 export declare let NodeEditor: React.ForwardRefExoticComponent<NodeEditorProps & React.RefAttributes<unknown>>;
 export {};

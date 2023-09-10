@@ -51,7 +51,8 @@ export let NodeEditor = (
     disablePan = false,
     circularBehavior,
     renderNodeHeader,
-    debug
+    debug,
+    style
   },
   ref
 ) => {
@@ -174,6 +175,7 @@ export let NodeEditor = (
                         dispatchComments={dispatchComments}
                         disableComments={disableComments || hideComments}
                         stageRef={stage}
+                        style={style}
                         numNodes={Object.keys(nodes).length}
                         outerStageChildren={
                           <React.Fragment>
