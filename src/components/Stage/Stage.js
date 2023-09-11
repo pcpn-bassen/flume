@@ -256,7 +256,11 @@ const Stage = ({
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
         >
+          <div
+            data-flume-component="background"
+          >
           {children}
+          </div>
         </div>
       </div>
       {outerStageChildren}
