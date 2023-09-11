@@ -246,11 +246,13 @@ const Stage = ({
         </Portal>
       ) : null}
       <div
+      data-flume-component="transform-wrapper"
         ref={translateWrapper}
         className={styles.transformWrapper}
         style={{ transform: `translate(${-translate.x}px, ${-translate.y}px)` }}
       >
         <div
+        data-flume-component="scale-wrapper"
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
         >
