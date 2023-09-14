@@ -10,6 +10,8 @@ interface NodeEditorProps {
     onChange?: (nodes: NodeMap) => void;
     onCommentsChange?: (comments: FlumeCommentMap) => void;
     initialScale?: number;
+    onScaleChange?: (scale: number) => void;
+    onTranslateChange?: (translate: {x: number, y: number}) => void;
     spaceToPan?: boolean;
     hideComments?: boolean;
     disableComments?: boolean;
@@ -18,6 +20,7 @@ interface NodeEditorProps {
     circularBehavior?: CircularBehavior;
     renderNodeHeader?: NodeHeaderRenderCallback;
     debug?: boolean;
+    style?: React.CSSProperties;
 }
 export declare let NodeEditor: React.ForwardRefExoticComponent<NodeEditorProps & React.RefAttributes<unknown>>;
 export {};

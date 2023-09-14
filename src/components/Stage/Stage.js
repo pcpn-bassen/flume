@@ -21,7 +21,8 @@ const Stage = ({
   dispatchComments,
   disableComments,
   disablePan,
-  disableZoom
+  disableZoom,
+  style
 }) => {
   const nodeTypes = React.useContext(NodeTypesContext);
   const dispatchNodes = React.useContext(NodeDispatchContext);
@@ -227,7 +228,7 @@ const Stage = ({
       onKeyDown={handleKeyDown}
       tabIndex={-1}
       stageState={{ scale, translate }}
-      style={{ cursor: spaceIsPressed && spaceToPan ? "grab" : "" }}
+      style={{ cursor: spaceIsPressed && spaceToPan ? "grab" : "", ...style }}
       disabled={disablePan || (spaceToPan && !spaceIsPressed)}
       data-flume-stage={true}
     >
@@ -245,15 +246,21 @@ const Stage = ({
         </Portal>
       ) : null}
       <div
+      data-flume-component="transform-wrapper"
         ref={translateWrapper}
         className={styles.transformWrapper}
         style={{ transform: `translate(${-translate.x}px, ${-translate.y}px)` }}
       >
         <div
+        data-flume-component="scale-wrapper"
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
         >
+          <div
+            data-flume-component="background"
+          >
           {children}
+          </div>
         </div>
       </div>
       {outerStageChildren}
